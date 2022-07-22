@@ -19,7 +19,7 @@ import common.collection.ABox;
 import common.controller.SuperController;
 import shadow.nft.service.NftService;
 
-@RequestMapping("/nft")
+@RequestMapping("/api")
 @RestController
 public class NftController extends SuperController{
 
@@ -35,14 +35,31 @@ public class NftController extends SuperController{
 	@Autowired
 	private NftService nftService;
 
-	@RequestMapping(value = "/test", produces = "application/json; charset=utf8", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	
+	@RequestMapping(value = "/", produces = "application/json; charset=utf8", method = RequestMethod.GET)
+	public ResponseEntity<String> apiController()
+			throws Exception {
+		String result = "";
+		try {
+			result = "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/test", produces = "application/json; charset=utf8", method = {RequestMethod.POST, RequestMethod.GET}, headers = "Content-Type=application/json;utf-8")
 	public ResponseEntity<String> postController(@RequestBody String json) throws Exception{
 		String result = "";
 		ABox jsonBox = new ABox();
-		jsonBox = jsonBox.jsonToABox(json);
 		try {
-			result = jsonBox.toString();
-			
+			if(json.length() > 0) {
+				jsonBox = jsonBox.jsonToABox(json);
+				result = "POST : "+jsonBox.toString();				
+			} else {
+				result = "GET";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
