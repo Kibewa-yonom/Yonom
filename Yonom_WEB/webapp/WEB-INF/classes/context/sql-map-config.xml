@@ -12,6 +12,8 @@
 
 	<mappers>
 		<mapper resource="mybatis/mappers/common/common_mapper.xml" />
+		<mapper resource="mybatis/mappers/user/user_mapper.xml" />
+		<mapper resource="mybatis/mappers/goods/goods_mapper.xml" />
 
 	</mappers>
 

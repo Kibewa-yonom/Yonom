@@ -45,7 +45,8 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 		ABox resultBox = new ABox();
 		try {
 			ABoxList<ABox> goodsList = new ABoxList<ABox>();
-			goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsListSQL", paramBox);
+			paramBox.set("goodsState", "GS01");
+			goodsList = commonDao.selectList("mybatis.goods.goods_mapper.selectGoodsListSQL", paramBox);
 			if(goodsList.size() > 0) {
 				resultBox.set("goods-list", goodsList);
 				resultBox.set("count", goodsList.size());
@@ -73,14 +74,14 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 			ABox goodsBox = new ABox();
 			ABox wishBox = new ABox(); 
 			
-			goodsBox = commonDao.select("mybatis.shadow.goods.goods_mapper.selectGoodsSQL", paramBox);
+			goodsBox = commonDao.select("mybatis.goods.goods_mapper.selectGoodsSQL", paramBox);
 			if(goodsBox.isEmpty()) {
 				resultBox.set("check", "empty");	
 			} else {
 				if(!goodsBox.getString("GOODS_STATE").equals("GS01")) {
 					resultBox.set("check", "forbidden");	
 				} else {
-					wishBox = commonDao.select("mybatis.shadow.goods.goods_mapper.selectWishSQL", paramBox);
+					wishBox = commonDao.select("mybatis.goods.goods_mapper.selectWishSQL", paramBox);
 					resultBox.set("goods", goodsBox);
 					resultBox.set("wish", wishBox);
 					resultBox.set("check", "ok"); 
@@ -98,7 +99,7 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 		ABox resultBox = new ABox();
 		try {
 			ABoxList<ABox> goodsList = new ABoxList<ABox>();
-			goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectSaleRecordListSQL", paramBox);
+			goodsList = commonDao.selectList("mybatis.goods.goods_mapper.selectSaleRecordListSQL", paramBox);
 			if(goodsList.size() > 0) {
 				resultBox.set("goods-list", goodsList);
 				resultBox.set("count", goodsList.size());

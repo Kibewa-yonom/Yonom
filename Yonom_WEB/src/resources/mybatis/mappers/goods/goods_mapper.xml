@@ -18,8 +18,10 @@
 			<if test="goodsCategory != '' and goodsCategory != null">
 				GOODS_CATEGORY = #{goodsCategory}
 			</if>
-			GOODS_STATE = 'GS01'
-		</trim>
+			<if test="goodsState != '' and goodsState != null">
+				GOODS_STATE = #{goodsState}
+			</if>
+		</trim>		
 		ORDER BY
 			GOODS_SEQ DESC 
 		LIMIT 
@@ -53,8 +55,6 @@
 	]]>		
 	</select>
 
-	
-	
 		<!-- 상품 목록 조회 MyBatis -->
 	<select id="selectSaleRecordListSQL"
 		resultType="common.collection.ABox"
