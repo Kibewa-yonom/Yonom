@@ -31,12 +31,85 @@ public class GoodsController extends SuperController{
 	public ResponseEntity<String> apiController()throws Exception {
 		String result = "";
 		try {
-			result = "ok";
+			result = goodsService.selectGoods(new ABox()).aBoxToJsonObject().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/goods-list", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> getGoodsListController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.selectGoods(jsonBox).aBoxToJsonObject().toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/record-list", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> getSaleRecordListController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.selectGoods(jsonBox).aBoxToJsonObject().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/request-purchase", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> requestPurchaseController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.requestPurchase(jsonBox).aBoxToJsonObject().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/register-goods", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> registerGoodsController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.requestPurchase(jsonBox).aBoxToJsonObject().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/choose-buyer", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> chooseBuyerController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.chooseBuyer(jsonBox).aBoxToJsonObject().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+
+
 
 }

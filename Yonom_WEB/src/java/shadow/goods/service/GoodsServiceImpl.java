@@ -44,11 +44,16 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 	public ABox selectGoods(ABox paramBox) {
 		ABox resultBox = new ABox();
 		try {
-			ABoxList<ABox> goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsListSQL", paramBox);
+			ABoxList<ABox> goodsList = new ABoxList<ABox>();
+			goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsListSQL", paramBox);
 			if(goodsList.size() > 0) {
 				resultBox.set("goods-list", goodsList);
 				resultBox.set("count", goodsList.size());
 				resultBox.set("check", "ok");
+				
+				//TODO sql 조회문 수정 
+				//TODO 이미지 모듈 부착 
+				//TODO 동적 limit 의논 
 			} else {
 				resultBox.set("count", 0);
 				resultBox.set("check", "empty");
@@ -57,7 +62,33 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			resultBox.set("check", "fail");
-
+		}
+		return resultBox;
+	}
+	
+	@Override
+	public ABox findGoods(ABox paramBox) {
+		ABox resultBox = new ABox();
+		try {
+			ABox goodsBox = new ABox();
+			ABox wishBox = new ABox(); 
+			
+			goodsBox = commonDao.select("mybatis.shadow.goods.goods_mapper.selectGoodsSQL", paramBox);
+			if(goodsBox.isEmpty()) {
+				resultBox.set("check", "empty");	
+			} else {
+				if(!goodsBox.getString("GOODS_STATE").equals("GS01")) {
+					resultBox.set("check", "forbidden");	
+				} else {
+					wishBox = commonDao.select("mybatis.shadow.goods.goods_mapper.selectWishSQL", paramBox);
+					resultBox.set("goods", goodsBox);
+					resultBox.set("wish", wishBox);
+					resultBox.set("check", "ok"); 
+				}			
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
 		}
 		return resultBox;
 	}
@@ -66,11 +97,16 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 	public ABox selectSalesRecord(ABox paramBox) {
 		ABox resultBox = new ABox();
 		try {
-			ABoxList<ABox> goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsRecordListSQL", paramBox);
+			ABoxList<ABox> goodsList = new ABoxList<ABox>();
+			goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectSaleRecordListSQL", paramBox);
 			if(goodsList.size() > 0) {
 				resultBox.set("goods-list", goodsList);
 				resultBox.set("count", goodsList.size());
 				resultBox.set("check", "ok");
+				
+				//TODO sql 조회문 수정 
+				//TODO 이미지 모듈 부착 
+				//TODO 동적 limit 의논 
 			} else {
 				resultBox.set("count", 0);
 				resultBox.set("check", "empty");
@@ -79,27 +115,48 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			resultBox.set("check", "fail");
-
 		}
 		return resultBox;
 	}
 
 	@Override
-	public ABox salesGoods(ABox paramBox) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public ABox registerGoods(ABox paramBox) throws DataAccessException {
+		ABox resultBox = new ABox();
+		try {
+			resultBox.set("check", "ok");
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
+		}
+		return resultBox;
 	}
 
 	@Override
 	public ABox requestPurchase(ABox paramBox) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		ABox resultBox = new ABox();
+		try {
+			resultBox.set("check", "ok");
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
+		}
+		return resultBox;
 	}
+
 
 	@Override
 	public ABox chooseBuyer(ABox paramBox) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		ABox resultBox = new ABox();
+		try {
+			resultBox.set("check", "ok");
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
+		}
+		return resultBox;
 	}
 
 }
