@@ -40,4 +40,66 @@ import common.service.SuperService;
 @Transactional(propagation = Propagation.REQUIRED) // 서비스 클래스의 모든 메서드에 트랜잭션을 적용
 public class GoodsServiceImpl extends SuperService implements GoodsService {
 
+	@Override
+	public ABox selectGoods(ABox paramBox) {
+		ABox resultBox = new ABox();
+		try {
+			ABoxList<ABox> goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsListSQL", paramBox);
+			if(goodsList.size() > 0) {
+				resultBox.set("goods-list", goodsList);
+				resultBox.set("count", goodsList.size());
+				resultBox.set("check", "ok");
+			} else {
+				resultBox.set("count", 0);
+				resultBox.set("check", "empty");
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
+
+		}
+		return resultBox;
+	}
+
+	@Override
+	public ABox selectSalesRecord(ABox paramBox) {
+		ABox resultBox = new ABox();
+		try {
+			ABoxList<ABox> goodsList = commonDao.selectList("mybatis.shadow.goods.goods_mapper.selectGoodsRecordListSQL", paramBox);
+			if(goodsList.size() > 0) {
+				resultBox.set("goods-list", goodsList);
+				resultBox.set("count", goodsList.size());
+				resultBox.set("check", "ok");
+			} else {
+				resultBox.set("count", 0);
+				resultBox.set("check", "empty");
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			resultBox.set("check", "fail");
+
+		}
+		return resultBox;
+	}
+
+	@Override
+	public ABox salesGoods(ABox paramBox) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ABox requestPurchase(ABox paramBox) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ABox chooseBuyer(ABox paramBox) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

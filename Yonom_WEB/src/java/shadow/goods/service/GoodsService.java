@@ -1,5 +1,6 @@
 package shadow.goods.service;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import common.collection.ABox;
@@ -10,5 +11,10 @@ import common.collection.ABox;
  * </pre>
  */
 public interface GoodsService {
-
+	ABox selectGoods(ABox paramBox);	//	상품 조회
+	ABox selectSalesRecord(ABox paramBox);		//	상품 판매 기록 조회 
+	ABox salesGoods(ABox paramBox) throws DataAccessException;		// 상품 판매 
+	ABox requestPurchase(ABox paramBox) throws DataAccessException;	// 상품 구매 신청
+	ABox chooseBuyer(ABox paramBox) throws DataAccessException;	// 상품 구매자 선정 
+	
 }
