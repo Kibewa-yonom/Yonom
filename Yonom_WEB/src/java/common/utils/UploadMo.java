@@ -1,28 +1,9 @@
 package common.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import common.collection.ALog;
-import common.collection.ASession;
-import common.dao.CommonDaoIF;
-
-/**
- * <pre>
- * 	모든 Service 클래스의 부모클래스로써 공통기능 및 멤버 변수를 선언함.
- * </pre>
- */
-package common.file;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
