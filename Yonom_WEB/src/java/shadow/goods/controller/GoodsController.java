@@ -54,6 +54,21 @@ public class GoodsController extends SuperController{
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/sold-good-list", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> getSoldGoodsListController(@RequestBody String json) throws Exception {
+		String result = "";
+		ABox jsonBox = new ABox();
+		jsonBox = jsonBox.jsonToABox(json);
+		try {
+			result = goodsService.selectSalesRecord(jsonBox).aBoxToJsonObject().toString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/record-list", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
 	public ResponseEntity<String> getSaleRecordListController(@RequestBody String json) throws Exception {
 		String result = "";

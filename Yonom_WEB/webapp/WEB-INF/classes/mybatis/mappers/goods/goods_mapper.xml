@@ -24,9 +24,16 @@
 		</trim>		
 		ORDER BY
 			GOODS_SEQ DESC 
-		LIMIT 
-			0,10;
-
+		<choose>
+			<when test="num != '' and num != null">
+				LIMIT
+					num, (num+10);
+			</when>
+			<otherwise>
+				LIMIT 
+					0,10;
+			</otherwise>		
+		</choose>
 	</select>
 	
 	<select id="selectGoodsSQL"
@@ -68,8 +75,16 @@
 			GOOD_SEQ = #{goodsSeq}
 		ORDER BY
 			TRAFFIC_SEQ DESC 
-		LIMIT 
-			0,10;
 	]]>		
+		<choose>
+			<when test="num != '' and num != null">
+				LIMIT
+					num, (num+10);
+			</when>
+			<otherwise>
+				LIMIT 
+					0,10;
+			</otherwise>		
+		</choose>
 	</select>
 </mapper>
