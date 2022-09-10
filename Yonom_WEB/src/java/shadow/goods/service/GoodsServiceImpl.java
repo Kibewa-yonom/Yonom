@@ -18,6 +18,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import common.collection.ABox;
 import common.collection.ABoxList;
 import common.service.SuperService;
+import common.utils.UploadMo;
 
 /**
  * <pre>
@@ -40,6 +42,9 @@ import common.service.SuperService;
 @Transactional(propagation = Propagation.REQUIRED) // 서비스 클래스의 모든 메서드에 트랜잭션을 적용
 public class GoodsServiceImpl extends SuperService implements GoodsService {
 
+	@Autowired
+	private UploadMo uploadMo;
+	
 	@Override
 	public ABox selectGoods(ABox paramBox) {
 		ABox resultBox = new ABox();
@@ -105,9 +110,6 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 				resultBox.set("count", goodsList.size());
 				resultBox.set("check", "ok");
 				
-				//TODO sql 조회문 수정 
-				//TODO 이미지 모듈 부착 
-				//TODO 동적 limit 의논 
 			} else {
 				resultBox.set("count", 0);
 				resultBox.set("check", "empty");
@@ -121,11 +123,32 @@ public class GoodsServiceImpl extends SuperService implements GoodsService {
 	}
 
 	@Override
-	public ABox registerGoods(ABox paramBox) throws DataAccessException {
+	public ABox registerGoods(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
 		ABox resultBox = new ABox();
 		try {
 			resultBox.set("check", "ok");
+			ABox aBox = new ABox();
+			ABoxList<ABox> imageList = new ABoxList<ABox>();
+			// [2] multipartRequest로 가져온 패러미터를 aBox으로 초기화
 
+			aBox.set("publicId", multipartRequest.getParameter("publicId"));
+			aBox.set("phoneNum", multipartRequest.getParameter("phoNum"));
+			aBox.set("genderSt", multipartRequest.getParameter("genderSt"));
+			aBox.set("email", multipartRequest.getParameter("email"));
+			aBox.set("pwd", multipartRequest.getParameter("pwd"));
+			aBox.set("mbti", multipartRequest.getParameter("mbti"));
+			// [3] 프로필 사진과 그림자 사진을 upload한 후 aBox에 세팅
+
+			
+			
+			//TODO 루니버스 모듈 부착 
+			
+			
+			imageList = uploadMo.upload(multipartRequest);
+			for (int i = 0; i < 5; i++) {
+				aBox.set("image" + (i + 1), imageList.get(0).getString("originFileName" + (i + 1)));
+			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			resultBox.set("check", "fail");

@@ -83,22 +83,23 @@ public class GoodsController extends SuperController{
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/request-purchase", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
-	public ResponseEntity<String> requestPurchaseController(@RequestBody String json) throws Exception {
-		String result = "";
-		ABox jsonBox = new ABox();
-		jsonBox = jsonBox.jsonToABox(json);
+	@RequestMapping(value = "/register-goods", method = RequestMethod.POST, headers = "Content-Type=multipart/form-data")
+	public ResponseEntity<String> registerGoodsController(MultipartHttpServletRequest multipartRequest,
+			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
+		String result = null;
 		try {
-			result = goodsService.requestPurchase(jsonBox).aBoxToJsonObject().toString();
+			result = goodsService.registerGoods(multipartRequest).aBoxToJsonObject().toString();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
+
 	
-	@RequestMapping(value = "/register-goods", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
-	public ResponseEntity<String> registerGoodsController(@RequestBody String json) throws Exception {
+	@RequestMapping(value = "/request-purchase", method = RequestMethod.POST, headers = "Content-Type=application/json;utf-8")
+	public ResponseEntity<String> requestPurchaseController(@RequestBody String json) throws Exception {
 		String result = "";
 		ABox jsonBox = new ABox();
 		jsonBox = jsonBox.jsonToABox(json);
