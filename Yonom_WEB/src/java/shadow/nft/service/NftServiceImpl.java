@@ -26,8 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import common.collection.ABox;
 import common.collection.ABoxList;
+import common.collection.AToken;
 import common.service.SuperService;
 
 /**
@@ -39,7 +42,9 @@ import common.service.SuperService;
 @Service
 @Transactional(propagation = Propagation.REQUIRED) // 서비스 클래스의 모든 메서드에 트랜잭션을 적용
 public class NftServiceImpl extends SuperService implements NftService {
-
+	
+	private AToken aToken = new AToken();
+	
 	@Value("#{nft_account['ACCESSKEY'].trim()}")
 	private String accessKey;
 
@@ -54,7 +59,6 @@ public class NftServiceImpl extends SuperService implements NftService {
 	public ABox getAuthToken(ABox paramBox) {
 		ABox resultBox = new ABox();		
 		try {
-			
 			URL url = new URL("https://api.luniverse.io/svc/v2/auth-tokens/");
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 
@@ -86,10 +90,11 @@ public class NftServiceImpl extends SuperService implements NftService {
 	        }
 			
 			if (conn.getResponseCode() == 200) {		
-				ABox parsingBox = new ABox();
-				parsingBox = parsingBox.jsonToABox(results.toString());
-				resultBox = parsingBox;
-
+				ObjectMapper mapper = new ObjectMapper();
+				aToken = mapper.readValue(br, AToken.class);
+				resultBox.set("token", aToken);
+				aLog.i(aToken.toString());
+			
 			} else {
 				resultBox.set("check", "fail");
 				resultBox.set("check_code", conn.getResponseCode());

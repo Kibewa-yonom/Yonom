@@ -19,7 +19,7 @@ import common.collection.ABox;
 import common.controller.SuperController;
 import shadow.nft.service.NftService;
 
-@RequestMapping("/api")
+@RequestMapping("/nft")
 @RestController
 public class NftController extends SuperController{
 
