@@ -30,4 +30,16 @@ public class UserController extends SuperController{
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/add-user", produces = "application/json; charset=utf8", method = RequestMethod.GET)
+	public ResponseEntity<String> userAddController()throws Exception {
+		String result = "";
+		try {
+			result = "fs";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(result, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+
 }
